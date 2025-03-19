@@ -22,6 +22,10 @@ def execute_sql_query(query: str) -> dict:
     Returns:
         dict: The query result.
     """
+    return execute_query(query)
+
+
+def execute_query(query: str) -> dict:
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor(dictionary=True)

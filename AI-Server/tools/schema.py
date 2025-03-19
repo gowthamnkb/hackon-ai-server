@@ -10,6 +10,7 @@ Tables:
 7. recharges(id TEXT PRIMARY KEY, account_id TEXT, amount INT, status TEXT, created_at INT unix timestamp)
 8. payments(id TEXT PRIMARY KEY, account_id TEXT, amount INT, status TEXT, created_at INT unix timestamp)
 8. refunds(id TEXT PRIMARY KEY, account_id TEXT, amount INT, status TEXT, created_at INT unix timestamp)
+9. programs(id TEXT PRIMARY KEY, name TEXT)
 
 Relationships:
 - accounts.user_id → users.id (One user can have multiple accounts)
