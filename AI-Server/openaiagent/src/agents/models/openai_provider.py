@@ -57,8 +57,8 @@ class OpenAIProvider(ModelProvider):
     # AsyncOpenAI() raises an error if you don't have an API key set.
     def _get_client(self) -> AsyncAzureOpenAI:
         if self._client is None:
-            self._stored_api_key = "8LUBmXifFCk3UIzCvmNyJbdFr3LC7FpQAEBrJFJkgTpYqfYdWZsnJQQJ99BCACYeBjFXJ3w3AAABACOGRlsi"
-            self._stored_base_url = "https://engagehq.openai.azure.com/openai/deployments/engage-hackon-gpt-4o-mini/chat/completions?api-version=2024-10-21"
+            self._stored_api_key = "G8H494sbtvOtW0nmKAiDPaSnhsXliRGuFF0xMPK2Ni6h5RT0cx7hJQQJ99BCACfhMk5XJ3w3AAABACOGAOC7"
+            self._stored_base_url = "https://exp-e2etest-analysis.openai.azure.com/openai/deployments/engage-hackon-fy25/chat/completions?api-version=2024-10-21"
             self.api_version = "2024-10-21"
             # print("self._stored_api_key is - ", self._stored_api_key)
             # print("self._stored_base_url is - ", self._stored_base_url)
