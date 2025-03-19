@@ -27,16 +27,17 @@ class ProcessModel:
         wallet_agent = Agent(
             name="Wallet agent",
             instructions=f"""
-                If fetch balance for contact, call fetch_balance with contact as input
-            """,
-            # You are a SQL expert. Generate SQL queries based on this database schema:\n{DB_SCHEMA}
-            #     Create queries by referring to the relationships mentioned in schema to create joins or sub queries.
-            #     And call execute_sql_query tool to run query and return response.
-            #     If the query is perform some action, call tool perform_<action> with user_id, program_id, amount as inputs
-            #     If program_id is not in input, run sql query to fetch ids, names from programs table and return them and ask merchant to choose one. 
-            #     If these inputs are not available, ask for them.
-            #     Once you have the inputs, run sql query to check current wallet balance of the user and return above inputs and
-            #     would be balance after load operation.
+                You are a SQL expert. Generate SQL queries based on this database schema:\n{DB_SCHEMA}
+                Create queries by referring to the relationships mentioned in schema to create joins or sub queries.
+                And call execute_sql_query tool to run query and return response.
+                If the query is perform some action, call tool perform_<action> with user_id, program_id, amount as inputs
+                If program_id is not in input, run sql query to fetch ids, names from programs table and return them and ask merchant to choose one. 
+                If these inputs are not available, ask for them.
+                if request is to credit/load wallet than amount and either contact or user_id must be provided.
+                if contact provided and generate sql query and run to fetch the userID and use for load
+                else if not passed either than prompt error for input.
+                Once you have the inputs, run sql query to check current wallet balance of the user and return above inputs and
+                would be balance after load operation.""",
             model="gpt-4o-mini",
             tools=[execute_sql_query, perform_load, fetch_balance],
         )
