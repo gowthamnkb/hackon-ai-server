@@ -10,6 +10,7 @@ Tables:
 8. payments(id TEXT PRIMARY KEY, merchant_id TEXT, account_id TEXT, amount INT, status TEXT, created_at INT unix timestamp)
 8. refunds(id TEXT PRIMARY KEY, merchant_id TEXT, account_id TEXT, amount INT, status TEXT, created_at INT unix timestamp)
 9. programs(id TEXT PRIMARY KEY, merchant_id TEXT, name TEXT, type TEXT)
+10. gift_cards(id TEXT PRIMARY KEY, account_id TEXT, card_number TEXT, status TEXT, created_at INT, linked_at INT)
 
 Relationships:
 - accounts.user_id → users.id (One user can have multiple accounts)
@@ -24,5 +25,6 @@ Relationships:
 - transactions.entity_type = 'refund' and transactions.entity_id → refunds.id (One refund can have one transaction)
 - programs.merchant_id → merchants.id (One merchant can have many programs)
 - users.merchant_id → merchants.id (One merchant can have many users)
+- gift_cards.account_id → accounts.id (One gift_card can have one account)
 
 """
