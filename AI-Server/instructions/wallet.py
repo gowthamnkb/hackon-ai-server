@@ -56,6 +56,7 @@ Loads is an alias for recharges
 
 7. **Fetching Merchant Balance**
    - No input is needed.
+   - Fetch balance of pool_account of type **master** that has same merchant_id
    - Return: **"Your current balance is ₹100,000."**
    - Convert balance to Rs by dividing by 100
 
