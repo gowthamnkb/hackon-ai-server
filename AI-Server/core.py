@@ -3,6 +3,7 @@ import openaiagent.src.agents as agents
 import asyncio
 from tools.db_tools import execute_sql_query
 from tools.schema import DB_SCHEMA
+from tools.perform_load import perform_load
 
 History =  []
 class ProcessModel:
@@ -28,9 +29,11 @@ class ProcessModel:
                 You are a SQL expert. Generate SQL queries based on this database schema:\n{DB_SCHEMA}
                 Create queries by referring to the relationships mentioned in schema to create joins or sub queries.
                 And call execute_sql_query tool to run query and return response.
+                If the query is perform some action, call tool perform_<action> with user_id, program_id, amount as inputs
+                If these inputs are not available, ask for them.
             """,
             model="gpt-4o-mini",
-            tools=[execute_sql_query],
+            tools=[execute_sql_query, perform_load],
         )
 
         giftcard_agent = Agent(
