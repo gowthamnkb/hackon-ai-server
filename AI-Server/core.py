@@ -1,6 +1,8 @@
 from openaiagent.src.agents import Agent, Runner
 import openaiagent.src.agents as agents
 import asyncio
+from tools.db_tools import execute_sql_query
+from tools.schema import DB_SCHEMA
 
 History =  []
 class ProcessModel:
@@ -22,14 +24,22 @@ class ProcessModel:
 
         wallet_agent = Agent(
             name="Wallet agent",
-            instructions="""You're a AI Bot""",
+            instructions=f"""
+                You are a SQL expert. Generate SQL queries based on this database schema:\n{DB_SCHEMA}
+                Create queries by referring to the relationships mentioned in schema to create joins or sub queries.
+                And call execute_sql_query tool to run query and return response.
+            """,
             model="gpt-4o-mini",
+            tools=[execute_sql_query],
         )
 
-        gc_agent = Agent(
-            name="GC agent",
-            instructions="You're a AI Bot",
-            model="gpt-4o-mini"
+        giftcard_agent = Agent(
+            name="Giftcard agent",
+            instructions=f"""
+                You work with queries on giftcards.
+            """,
+            model="gpt-4o-mini",
+            tools=[execute_sql_query],
         )
 
         self.runConfig = agents.RunConfig(
@@ -39,9 +49,9 @@ class ProcessModel:
 
         self.triage_agent = Agent(
             name="Triage agent",
-            instructions="Route to random agents. ",
+            instructions="Handoff to the appropriate agent based on the keyword wallet/giftcard in query.",
             model="gpt-4o-mini",
-            handoffs=[wallet_agent, gc_agent],
+            handoffs=[wallet_agent, giftcard_agent],
         )
 
         response = asyncio.run(self.mainFn(History))
