@@ -4,25 +4,33 @@ from openaiagent.src.agents import Agent, Runner
 import openaiagent.src.agents as agents
 import asyncio
 
+History =  []
 class ProcessModel:
     def __init__(self):
+        self.runConfig = None
         self.triage_agent = None
-        self.run_config = None
-
 
     def process(self, request):
+        print("History - ", History)
+        return self.askAI(request)
+
+    async def mainFn(self, input):
+        result = await Runner.run(self.triage_agent, input=input, run_config=self.runConfig)
+        return result.final_output
+
+    def askAI(self, request):
         message = request['message']
-        requestor = request['requestor']
+        History.append({"role": "user", "content": message})
 
         wallet_agent = Agent(
             name="Wallet agent",
-            instructions="""You're a carpenter, Answer in Hindi""",
+            instructions="""You're a AI Bot""",
             model="gpt-4o-mini",
         )
 
         gc_agent = Agent(
             name="GC agent",
-            instructions="You're a gardener. Answer in Tamil",
+            instructions="You're a AI Bot",
             model="gpt-4o-mini"
         )
 
@@ -33,19 +41,15 @@ class ProcessModel:
 
         self.triage_agent = Agent(
             name="Triage agent",
-            instructions=message,
+            instructions="Route to random agents. ",
             model="gpt-4o-mini",
             handoffs=[wallet_agent, gc_agent],
         )
 
-        return asyncio.run(self.mainFn(message))
+        response = asyncio.run(self.mainFn(History))
+        History.append({"role": "assistant", "content": response})
 
-    async def mainFn(self, input):
-        result = await Runner.run(self.triage_agent, input=input, run_config=self.runConfig)
-        return result.final_output
-
-
-
+        return response
 
 
 """
