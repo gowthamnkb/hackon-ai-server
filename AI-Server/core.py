@@ -12,13 +12,12 @@ class ProcessModel:
 
     def process(self, request):
         message = request['message']
+        requestor = request['requestor']
 
         wallet_agent = Agent(
             name="Wallet agent",
             instructions="""You're a carpenter, Answer in Hindi""",
-
             model="gpt-4o-mini",
-            # handoffs=[wallet_input_agent, wallet_output_agent]
         )
 
         gc_agent = Agent(
