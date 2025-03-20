@@ -71,6 +71,7 @@ Loads is an alias for recharges
      - Amount should **not** be in paisa.
      - If the merchant **does not have enough balance**, return **"Insufficient balance to perform this action."**
    - If the merchant modifies the amount, ensure the change is handled correctly.
+   - If account type is container than consider it as wallet else it will be giftcard.
 
 9. **Total Payments or Loads or Recharges in the Last 30 Days**
    - If contact has more than 1 wallets, get program_id from linked accounts and ask which program to choose

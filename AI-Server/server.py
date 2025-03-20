@@ -7,7 +7,7 @@ from core import ProcessModel
 app = Flask(__name__)
 
 
-@app.route("/action", methods=["GET"])
+@app.route("/action", methods=["POST"])
 def health_check():
     data = request.json
     return {"response":json.dumps(ProcessModel().process(data))}
