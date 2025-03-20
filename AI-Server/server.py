@@ -2,10 +2,11 @@ import json
 
 from flask import Flask, request, jsonify
 from core import ProcessModel
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route("/action", methods=["POST"])
 def health_check():

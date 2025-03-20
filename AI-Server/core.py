@@ -18,7 +18,7 @@ class ProcessModel:
         return self.askAI(request)
 
     async def mainFn(self, input):
-        result = await Runner.run(self.triage_agent, input=input, run_config=self.runConfig)
+        result = await Runner.run(self.wallet_agent, input=input, run_config=self.runConfig)
         return result.final_output
 
     def askAI(self, request):
@@ -28,14 +28,14 @@ class ProcessModel:
             History[token] = []
         History[token].append({"role": "user", "content": message})
 
-        wallet_agent = Agent(
+        self.wallet_agent = Agent(
             name="Wallet agent",
             instructions= WALLET_INSTRUCTIONS,
             model="gpt-4o",
             tools=[execute_sql_query, perform_load, fetch_balance],
         )
 
-        giftcard_agent = Agent(
+        self.giftcard_agent = Agent(
             name="Giftcard agent",
            instructions=GIFTCARD_INSTRUCTIONS,
             model="gpt-4o-mini",
@@ -54,7 +54,7 @@ class ProcessModel:
                 Set merchant_id globally which is rreferenced in all agents
             """,
             model="gpt-4o-mini",
-            handoffs=[wallet_agent, giftcard_agent],
+            handoffs=[self.wallet_agent, self.giftcard_agent],
         )
 
         response = asyncio.run(self.mainFn(History[token]))

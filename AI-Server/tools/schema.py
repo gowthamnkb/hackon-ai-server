@@ -10,7 +10,7 @@ Tables:
 8. payments(id TEXT PRIMARY KEY, merchant_id TEXT, account_id TEXT, amount INT, status TEXT, created_at INT unix timestamp)
 8. refunds(id TEXT PRIMARY KEY, merchant_id TEXT, account_id TEXT, amount INT, status TEXT, created_at INT unix timestamp)
 9. programs(id TEXT PRIMARY KEY, merchant_id TEXT, name TEXT, type TEXT)
-10. gift_cards(id TEXT PRIMARY KEY, account_id TEXT, card_number TEXT, status TEXT, created_at INT, linked_at INT)
+10. gift_cards(id TEXT PRIMARY KEY, account_id TEXT, card_number TEXT, status TEXT, created_at INT, linked_at INT, linked_user_id TEXT, expire_at INT, merchant_id TEXT)
 11. pool_accounts(id TEXT PRIMARY KEY, type TEXT, merchant_id TEXT, account_id TEXT)
 
 Relationships:
@@ -29,5 +29,7 @@ Relationships:
 - gift_cards.account_id → accounts.id (One gift_card can have one account)
 - pool_accounts.merchant_id → merchants.id (One merchant can have many pool accounts)
 - pool_accounts.account_id → accounts.id (One pool account can have one account)
+- gift_cards.linked_user_id → users.id (One user can have many gift_cards)
+- gift_cards.merchant_id → merchants.id (One merchant can have many gift_cards)
 
 """
